@@ -19,7 +19,7 @@ import DomainReservationError from '../messages/domain-reservation-error';
 import { authorize } from '../authentication/authorize';
 const randomstring = require("randomstring");
 
-const RANDOM_SUBDOMAIN_LENGTH = 6;
+const RANDOM_SUBDOMAIN_LENGTH = 12;
 
 const { verify } = require('reverse-dns-lookup');
 
@@ -134,8 +134,5 @@ export default async function initialise(message: InitialiseMessage, websocket: 
 
 const generateRandomSubdomain = (websocket: HostipWebSocket) : string => {
     const randomString : string = randomstring.generate(RANDOM_SUBDOMAIN_LENGTH);
-    let subdomain = randomString.toLowerCase();
-    const ipTransformed = websocket.ipAddress.replace(/\./g, '-');
-    subdomain = subdomain + '-ip-' + ipTransformed;
-    return subdomain;
+    return randomString.toLowerCase();
 }

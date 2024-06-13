@@ -3,13 +3,14 @@ import { ROOT_DIR } from '../../constants';
 import HostipWebSocket from '../websocket/host-ip-websocket';
 import InitialiseMessage from '../messages/initialise-message';
 import InvalidSubscriptionMessage from '../messages/invalid-subscription-message';
+import config from '../../config'
 
 const authorize = async(message: InitialiseMessage, websocket: HostipWebSocket, randomSubdomain: string) : Promise<boolean> => {
     const { apiKey } = message;
-    const apiKeys = JSON.parse(fs.readFileSync(ROOT_DIR + "/src/authentication/apiKeys.json").toString());
+    const apiKeys = [config.server.apiKey];
 
     const apiKeyRecord = apiKeys.find((record: any) => {
-        return record.apiKey == apiKey;
+        return record == apiKey;
     });
 
     // No API key record. Send back a message, close the connection and return false 
